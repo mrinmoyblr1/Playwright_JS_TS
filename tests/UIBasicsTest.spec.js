@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test')
 
-test.only('Browser Context Playwright Test', async ({ browser }) => {
+test('Browser Context Playwright Test', async ({ browser }) => {
     // It will open a fresh instance of the browser for each test
     const context = await browser.newContext();
     // It will open a new page in the fresh browser context
