@@ -16,5 +16,3 @@ test.only('Browser Context Playwright Test', async ({ page }) => {
     const titles = page.locator('.card-body b').allTextContents();
     console.log(await titles);
 });
-
-
