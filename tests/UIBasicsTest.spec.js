@@ -1,6 +1,12 @@
 const { test, expect } = require('@playwright/test')
 
 test.only('Browser Context Playwright Test', async ({ browser }) => {
+
+    const userName = page.locator('#username');
+    const password = page.locator("[type='password']");
+    const signInButton = page.locator('#signInBtn');
+    const terms = page.locator('#terms');
+
     // It will open a fresh instance of the browser for each test
     const context = await browser.newContext();
     // It will open a new page in the fresh browser context
@@ -9,15 +15,25 @@ test.only('Browser Context Playwright Test', async ({ browser }) => {
     console.log(await page.title());
     expect(await page.title()).toContain('LoginPage Practise')
 
-    await page.locator('#username').fill('rahulshettyacademy')
-    await page.locator("[type='password']").fill('Learning@830$3mK21')
-    await page.locator('#terms').click()
-    await page.locator('#signInBtn').click()
+    //.fill() is used to fill the input field with the given value. 
+    // It will clear the input field before filling it with the new value.
+    await userName.fill('rahulshettyacademy')
+    await password.fill('Learning@830$3mK21')
+    await terms.click()
+    await signInButton.click()
 
     console.log(await page.locator("[style*='block']").textContent());
     await expect(page.locator("[style*='block']")).toContainText('Incorrect');
     //await expect(page.locator("p[class='error']")).toHaveText('Incorrect username/password.')
     await expect(page.locator("[style*='block']")).toHaveText('Incorrect username/password.')
+
+    await userName.fill('');
+    await userName.fill('rahulshettyacademy');
+    await password.fill('');
+    await password.fill('Learning@830$3mK2');
+    await signInButton.click();
+    console.log(await page.locator(".card-body a").nth(1).textContent());
+    await expect(page.locator(".card-body a").nth(1)).toHaveText('ProtoCommerce');
 
 
     // console.log(await page.locator(".card-body a").nth(1).textContent());
