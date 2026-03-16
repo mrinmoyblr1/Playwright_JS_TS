@@ -11,7 +11,7 @@ const config = defineConfig({
 
   use: {
     browserName: 'chromium',
-    headless: true,
+    headless: false,
     screenshot: 'on',
     video: 'on',
     trace: 'on',

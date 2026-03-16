@@ -50,10 +50,6 @@ test('Browser Context Playwright Test', async ({ browser }) => {
     }
 });
 
-
-
-
-
 test('Plage Playwright Test', async ({ page }) => {
     await page.goto('https://google.com')
     console.log(await page.title())
@@ -63,28 +59,35 @@ test('Plage Playwright Test', async ({ page }) => {
 });
 
 
-test('Ui Controls', async ({ page }) => {
+test.only('Ui Controls', async ({ page }) => {
     await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
     const userName = page.locator('#username');
     const password = page.locator("[type='password']");
-    const dropdown = page.locator("select.form-control");
     const documentLink = page.locator("[href*='documents-request']");
 
+    // To handle the dropdown, we can use the selectOption() method.
+    const dropdown = page.locator("select.form-control");
     await dropdown.selectOption("Consultant");
-    // It will open Playwright Inspector and pause the execution.
-    //await page.pause();
 
+    // await page.pause() will open Playwright Inspector and pause the execution.
     await page.locator(".radiotextsty").nth(1).click();
     await page.locator("#okayBtn").click();
+    // For asserting the radio button is checked or not, we can use the isChecked() method. 
+    // It will return true if the radio button is checked, otherwise false.
+    // We use .toBe(true) or toBeChecked() method to assert the value returned by isChecked() method.
+    expect(await page.locator(".radiotextsty").nth(1).isChecked()).toBe(true);
     await expect(page.locator(".radiotextsty").last()).toBeChecked();
+
+    // Print statement:
+    // It will check the checkbox and return true if it is checked, otherwise false.
     console.log(await page.locator(".radiotextsty").last().isChecked());
-    // It will return Boolean value.
+
     await page.locator("#terms").click();
     expect(await page.locator("#terms")).toBeChecked();
     await page.locator("#terms").uncheck();
     expect(await page.locator("#terms").isChecked()).toBeFalsy();
-    // Here we are checking the checkbox is unchecked.
-
+    
+    // To check the attribute of an element, we can use the toHaveAttribute() method.
     await expect(documentLink).toHaveAttribute('class', 'blinkingText');
 });
 
