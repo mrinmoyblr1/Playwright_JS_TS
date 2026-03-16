@@ -8,15 +8,11 @@ test.only('Browser Context Playwright Test', async ({ page }) => {
     // Below line is used to wait for the network to be idle, which means that there are no more network requests being made. 
     // This is useful when you want to ensure that the page has fully loaded before proceeding with further actions.
     await page.waitForLoadState('networkidle');
-    // Below line is used to wait for the element with the class 'card-body' to be visible on the page.
-    // await page.locator('.card-body b').first().waitFor();
+    // Below line is a alternative of above, we use tthis wait for the element with the class 'card-body' to be visible on the page.
+    await page.locator('.card-body b').first().waitFor();
 
     const titles = page.locator('.card-body b').allTextContents();
     console.log(await titles);
-
-
-
-    //await page.pause();
 
 });
 
