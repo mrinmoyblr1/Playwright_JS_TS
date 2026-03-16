@@ -128,6 +128,9 @@ test.only('Child Windows Handles', async ({ browser }) => {
     console.log(domain);
     await userName.fill(domain);
     // To get the text content of an element, we can use the textContent() method. It will return the text content of the element.
+    // .textContent() method will return the text content of the element, including the text of its child elements. 
+    // It will return null if the element is not found.
+    // It will return the text which is attached with DOM, but it will not return the text which is not attached with DOM. 
     console.log(await userName.textContent());
     // To get the value of the input field, we can use the inputValue() method. It will return the value of the input field.
     console.log(await userName.inputValue());
