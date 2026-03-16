@@ -38,17 +38,16 @@ test.only('Browser Context Playwright Test', async ({ browser }) => {
     console.log("First Product: " + await cardTitles.first().textContent());
     // It will return the last element of the locator.
     console.log("Last Product: " + await cardTitles.last().textContent());
+    console.log("2nd Product: " + await cardTitles.nth(1).textContent());
     // It will return all the elements of the locator.
     // Whenever we will have multiple matches in element identification, 
     // then we should use either .first() or .last() or .nth() to get the specific element then use.allTextContents() to get the text of all the elements.
-    const allTitles = await page.locator(".card-body a").allTextContents();
-    console.log("All Products: " + allTitles);
+    const allTitles = await cardTitles.allTextContents();
+    console.log(allTitles);
 
     for (let i = 0; i < await cardTitles.count(); i++) {
         console.log("Product: " + await cardTitles.nth(i).textContent());
     }
-
-
 });
 
 
