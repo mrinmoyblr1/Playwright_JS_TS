@@ -1,16 +1,16 @@
 const { test, expect } = require('@playwright/test')
 
 test.only('Browser Context Playwright Test', async ({ browser }) => {
+    // It will open a fresh instance of the browser for each test
+    const context = await browser.newContext();
+    // It will open a new page in the fresh browser context
+    const page = await context.newPage();
 
     const userName = page.locator('#username');
     const password = page.locator("[type='password']");
     const signInButton = page.locator('#signInBtn');
     const terms = page.locator('#terms');
 
-    // It will open a fresh instance of the browser for each test
-    const context = await browser.newContext();
-    // It will open a new page in the fresh browser context
-    const page = await context.newPage();
     await page.goto('https://rahulshettyacademy.com/loginpagePractise/#')
     console.log(await page.title());
     expect(await page.title()).toContain('LoginPage Practise')
@@ -32,20 +32,22 @@ test.only('Browser Context Playwright Test', async ({ browser }) => {
     await password.fill('');
     await password.fill('Learning@830$3mK2');
     await signInButton.click();
-    console.log(await page.locator(".card-body a").nth(1).textContent());
-    await expect(page.locator(".card-body a").nth(1)).toHaveText('ProtoCommerce');
 
+    const cardTitles = await page.locator(".card-body a");
+    // It will return the first element of the locator.
+    console.log("First Product: " + await cardTitles.first().textContent());
+    // It will return the last element of the locator.
+    // 
+    console.log("Last Product: " + await cardTitles.last().textContent());
+    // It will return all the elements of the locator.
+    // Whenever we will have multiple matches in element identification, 
+    // then we should use either .first() or .last() or .nth() to get the specific element then use.allTextContents() to get the text of all the elements.
+    console.log("All Products: " + await cardTitles.allTextContents());
 
-    // console.log(await page.locator(".card-body a").nth(1).textContent());
-    // await page.waitForLoadState('networkidle');
-    // const cardTitles = await page.locator(".card-body a")
-    // const allCardTitles = await cardTitles.allTextContents()
-    // console.log(allCardTitles);
-    // const allProducts = await page.locator(".card-body a");
-    // const count = await allProducts.count();
-    // for (let i = 0; i < count; i++) {
-    //     console.log(await allProducts.nth(i).textContent());
-    // }
+    for (let i = 0; i < await cardTitles.count(); i++) {
+        console.log("Product: " + await cardTitles.nth(i).textContent());
+    }
+
 
 });
 
