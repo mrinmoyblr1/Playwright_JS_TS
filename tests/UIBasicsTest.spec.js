@@ -81,14 +81,27 @@ test.only('Ui Controls', async ({ page }) => {
     // Print statement:
     // It will check the checkbox and return true if it is checked, otherwise false.
     console.log(await page.locator(".radiotextsty").last().isChecked());
-
     await page.locator("#terms").click();
-    expect(await page.locator("#terms")).toBeChecked();
+
+    await expect(page.locator("#terms")).toBeChecked();
+
     await page.locator("#terms").uncheck();
+
+    // If action is performed outside of expect then awat will be outside of expect.
+    // If action is performed inside of expect then await will be inside of expect.
+
+    // This is the assertion to check if the checkbox is unchecked. It will return true if the checkbox is unchecked, otherwise false.
     expect(await page.locator("#terms").isChecked()).toBeFalsy();
-    
+
     // To check the attribute of an element, we can use the toHaveAttribute() method.
     await expect(documentLink).toHaveAttribute('class', 'blinkingText');
+
+    // To check the attribute of an element, we can use the getAttribute() method. It will return the value of the attribute.
+    if (await documentLink.getAttribute('class') === 'blinkingText') {
+        console.log(await documentLink.textContent());
+        console.log("It's a blinking text");
+    }
+
 });
 
 
