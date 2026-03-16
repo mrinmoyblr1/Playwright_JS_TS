@@ -59,7 +59,7 @@ test('Plage Playwright Test', async ({ page }) => {
 });
 
 
-test.only('Ui Controls', async ({ page }) => {
+test('Ui Controls', async ({ page }) => {
     await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
     const userName = page.locator('#username');
     const password = page.locator("[type='password']");
@@ -93,7 +93,7 @@ test.only('Ui Controls', async ({ page }) => {
     // This is the assertion to check if the checkbox is unchecked. It will return true if the checkbox is unchecked, otherwise false.
     expect(await page.locator("#terms").isChecked()).toBeFalsy();
 
-    // To check the attribute of an element, we can use the toHaveAttribute() method.
+    // This is a assertion, to check the attribute of an element, we can use the toHaveAttribute() method.
     await expect(documentLink).toHaveAttribute('class', 'blinkingText');
 
     // To check the attribute of an element, we can use the getAttribute() method. It will return the value of the attribute.
@@ -101,22 +101,25 @@ test.only('Ui Controls', async ({ page }) => {
         console.log(await documentLink.textContent());
         console.log("It's a blinking text");
     }
-
 });
 
 
-test('Child Windows Handles', async ({ browser }) => {
+test.only('Child Windows Handles', async ({ browser }) => {
     const context = await browser.newContext();
     const page = await context.newPage();
     const userName = page.locator('#username');
     await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
     const documentLink = page.locator("[href*='document']");
 
+    // Always promise will in 3 stages, pending, fulfilled and rejected. So, we use Promise.all() to wait for the promise to be fulfilled.
+    // Promise.all() is used to wait for multiple promises to be fulfilled. It will return an array of the results of the promises.
     const [newPage, newPage2] = await Promise.all(
         [
-            context.waitForEvent('page'),  // This will listen for any page
+            //The event is emitted when a new Page is created in the BrowserContext.
+            // This is a new page that is opened in the same browser context. It will return the new page object.
+            context.waitForEvent('page'),
             documentLink.click(),   // New page is opened here
-        ])
+        ]);
 
     const text = await newPage.locator(".red").textContent();
     console.log(text);
@@ -124,9 +127,10 @@ test('Child Windows Handles', async ({ browser }) => {
     const domain = arrayText[1].split(" ")[0];
     console.log(domain);
     await userName.fill(domain);
+    // To get the text content of an element, we can use the textContent() method. It will return the text content of the element.
     console.log(await userName.textContent());
-    console.log("===============");
+    // To get the value of the input field, we can use the inputValue() method. It will return the value of the input field.
     console.log(await userName.inputValue());
 
-    await page.pause();
+    //await page.pause();
 });
