@@ -19,9 +19,6 @@ test.only('Browser Context Playwright Test', async ({ browser }) => {
     //await expect(page.locator("p[class='error']")).toHaveText('Incorrect username/password.')
     await expect(page.locator("[style*='block']")).toHaveText('Incorrect username/password.')
 
-    console.log("MRINMOY BISWAS");
-
-
 
     // console.log(await page.locator(".card-body a").nth(1).textContent());
     // await page.waitForLoadState('networkidle');
