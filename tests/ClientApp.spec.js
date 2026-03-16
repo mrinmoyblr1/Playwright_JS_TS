@@ -10,10 +10,11 @@ test.only('Browser Context Playwright Test', async ({ page }) => {
     await page.waitForLoadState('networkidle');
     // Below line is a alternative of above, we use tthis wait for the element with the class 'card-body' to be visible on the page.
     await page.locator('.card-body b').first().waitFor();
+    await page.locator('.card-body b').last().waitFor();
+    await page.locator('.card-body b').nth(1).waitFor();
 
     const titles = page.locator('.card-body b').allTextContents();
     console.log(await titles);
-
 });
 
 
