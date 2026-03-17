@@ -2,9 +2,12 @@ const { test, expect } = require('@playwright/test')
 test.only('Browser Context Playwright Test', async ({ page }) => {
     const productName = 'ZARA COAT 3';
     const products = page.locator('.card-body');
+    const userEmail = 'mrinmoy.blr@gmail.com';
+    const userPassword = 'Test1234';
+
     await page.goto('https://rahulshettyacademy.com/client');
-    await page.locator('#userEmail').fill('mrinmoy.blr@gmail.com');
-    await page.locator('#userPassword').fill('Test1234');
+    await page.locator('#userEmail').fill(userEmail);
+    await page.locator('#userPassword').fill(userPassword);
     await page.locator('[value="Login"]').click();
     // Below line is used to wait for the network to be idle, which means that there are no more network requests being made. 
     // This is useful when you want to ensure that the page has fully loaded before proceeding with further actions.
@@ -40,5 +43,10 @@ test.only('Browser Context Playwright Test', async ({ page }) => {
             break;
         }
     }
-    //await page.pause();
+
+    console.log(await page.locator("[style*='color: lightgray']").textContent());
+    const email = await page.locator("[style*='color: lightgray']").textContent();
+    expect(userEmail).toBe(email);
+
+    await page.pause();
 });
