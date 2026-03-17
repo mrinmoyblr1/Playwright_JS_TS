@@ -134,6 +134,5 @@ test.only('Child Windows Handles', async ({ browser }) => {
     console.log(await userName.textContent());
     // To get the value of the input field, we can use the inputValue() method. It will return the value of the input field.
     console.log(await userName.inputValue());
-
     //await page.pause();
 });
