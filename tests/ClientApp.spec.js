@@ -28,17 +28,6 @@ test.only('Browser Context Playwright Test', async ({ page }) => {
     }
 
     await page.locator("[routerlink*='cart']").click();
-    
-
-
-
-
-
-
-
     await page.pause(3000);
-
-
-
 
 });
