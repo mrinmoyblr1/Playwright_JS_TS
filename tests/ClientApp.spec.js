@@ -1,6 +1,9 @@
 const { test, expect } = require('@playwright/test')
 
-test('Browser Context Playwright Test', async ({ page }) => {
+test.only('Browser Context Playwright Test', async ({ page }) => {
+    const productName = 'ZARA COAT 3';
+    const products = page.locator('.card-body');
+
     await page.goto('https://rahulshettyacademy.com/client');
     await page.locator('#userEmail').fill('mrinmoy.blr@gmail.com');
     await page.locator('#userPassword').fill('Test1234');
@@ -13,6 +16,29 @@ test('Browser Context Playwright Test', async ({ page }) => {
     await page.locator('.card-body b').last().waitFor();
     await page.locator('.card-body b').nth(1).waitFor();
 
-    const titles = page.locator('.card-body b').allTextContents();
-    console.log(await titles);
+    // const titles = page.locator('.card-body b').allTextContents();
+    // console.log(await titles);
+
+    const count = await products.count();
+    for (let i = 0; i < count; ++i) {
+        if (await products.nth(i).locator('b').textContent() === productName) {
+            await products.nth(i).locator("text=Add To Cart").click();
+            break;
+        }
+    }
+
+    await page.locator("[routerlink*='cart']").click();
+    
+
+
+
+
+
+
+
+    await page.pause(3000);
+
+
+
+
 });

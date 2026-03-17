@@ -104,7 +104,7 @@ test('Ui Controls', async ({ page }) => {
 });
 
 
-test.only('Child Windows Handles', async ({ browser }) => {
+test('Child Windows Handles', async ({ browser }) => {
     const context = await browser.newContext();
     const page = await context.newPage();
     const userName = page.locator('#username');
