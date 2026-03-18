@@ -56,12 +56,24 @@ test.only('Browser Context Playwright Test', async ({ page }) => {
     expect(successMessage).toEqual(message);
     expect(await page.locator(".hero-primary")).toHaveText(successMessage);
 
-    const orderID = await page.locator(".em-spacer-1 .ng-star-inserted").textContent();
+    const orderID = (await page.locator(".em-spacer-1 .ng-star-inserted").textContent()).split(" ")[2];
     console.log(orderID);
 
+    // This is for finding the Order in the Order page
+    await page.locator("button[routerlink*='myorders']").click();
 
+    await page.locator("tbody tr").first().waitFor();
 
-
+    const rows = page.locator("tbody tr");
+    for (let i = 0; i < await rows.count(); i++) {
+        const rowOrderID = await rows.nth(i).locator("th").textContent();
+        if (orderID.includes(rowOrderID)) {
+            await rows.nth(i).locator("button").first().click();
+            break;
+        }
+        const orderIdDetailsPage = await page.locator(".col-text").textContent();
+        expect(orderID.includes(orderIdDetailsPage)).toBeTruthy();
+    }
 
     //await page.pause();
 });
