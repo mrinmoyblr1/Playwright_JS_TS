@@ -4,6 +4,7 @@ test.only('Browser Context Playwright Test', async ({ page }) => {
     const products = page.locator('.card-body');
     const userEmail = 'mrinmoy.blr@gmail.com';
     const userPassword = 'Test1234';
+    const successMessage = " Thankyou for the order. ";
 
     await page.goto('https://rahulshettyacademy.com/client');
     await page.locator('#userEmail').fill(userEmail);
@@ -43,10 +44,24 @@ test.only('Browser Context Playwright Test', async ({ page }) => {
             break;
         }
     }
-
     console.log(await page.locator("[style*='color: lightgray']").textContent());
     const email = await page.locator("[style*='color: lightgray']").textContent();
     expect(userEmail).toBe(email);
 
-    await page.pause();
+    expect(await page.locator(".user__name [type='text']").first()).toHaveText(email);
+    await page.locator("a.action__submit").click();
+
+    const message = await page.locator("h1").textContent();
+    console.log(message);
+    expect(successMessage).toEqual(message);
+    expect(await page.locator(".hero-primary")).toHaveText(successMessage);
+
+    const orderID = await page.locator(".em-spacer-1 .ng-star-inserted").textContent();
+    console.log(orderID);
+
+
+
+
+
+    //await page.pause();
 });
