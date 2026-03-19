@@ -23,12 +23,12 @@ test.only('Browser Context Playwright Test', async ({ page }) => {
 
     // Below is the best way to use filter mechanasm to click on Add to Cart
     await page.locator(".card-body").filter({ hasText: 'ZARA COAT 3' }).getByRole("button", { name: 'Add To Cart' }).click();
-
-
-    await page.locator("[routerlink*='cart']").click();
+    await page.getByRole("listitem").getByRole("button", { name: "Cart" }).click();
     await page.locator("div li").first().waitFor();
-    const bool = await page.locator("h3:has-text('ZARA COAT 3')").isVisible();
-    expect(bool).toBeTruthy();
+
+    expect(await page.getByText("ZARA COAT 3").isVisible()).toBeTruthy();
+    await expect(page.getByText("ZARA COAT 3")).toBeVisible();
+
     await page.locator("text=Checkout").click();
     await page.locator("[placeholder*='Country']").pressSequentially("Ind");
     //const options = page.locator("section").nth(1);
