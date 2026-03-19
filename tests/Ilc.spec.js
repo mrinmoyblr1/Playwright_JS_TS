@@ -15,13 +15,17 @@ test.only('Playwright Special Locator', async ({ page }) => {
     // getByPlaceholder
     await page.getByPlaceholder("Password").fill("ASD");
 
-    await page.getByPlaceholder("Password").fill("ASD1");
-
     // getByRole : we need one extra parameter for {name:'Submit'}
     await page.getByRole("button", { name: 'Submit' }).click();
 
+    // This locator will work on visible Text
     await page.getByText("Success! The Form has been submitted successfully!.").isVisible();
+
     await page.getByRole("Link", { name: 'Shop' }).click();
+
+    // Here we do not mention name of the button as there is only one button
+    // This is very important locator mechanism
     await page.locator("app-card").filter({ hasText: 'Nokia Edge' }).getByRole("button").click();
-    // Here we do not need to mention name of the button as there is only one button
+    await page.pause();
+    
 });
