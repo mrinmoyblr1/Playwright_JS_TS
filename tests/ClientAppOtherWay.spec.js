@@ -1,16 +1,17 @@
 const { test, expect } = require('@playwright/test')
-test('Browser Context Playwright Test', async ({ page }) => {
+test.only('Browser Context Playwright Test', async ({ page }) => {
     const productName = 'ZARA COAT 3';
     const products = page.locator('.card-body');
     const userEmail = 'mrinmoy.blr@gmail.com';
     const userPassword = 'Test1234';
     const successMessage = " Thankyou for the order. ";
     await page.goto('https://rahulshettyacademy.com/client');
-    
-    await page.locator('#userEmail').fill(userEmail);
-    await page.locator('#userPassword').fill(userPassword);
-    await page.locator('[value="Login"]').click();
-    
+
+    // await page.locator('#userEmail').fill(userEmail);
+    await page.getByPlaceholder("email@example.com").fill(userEmail);
+    await page.getByPlaceholder('enter your passsword').fill(userPassword);
+    await page.getByRole("button", { name: "Login" }).click();
+
     // Below line is used to wait for the network to be idle, which means that there are no more network requests being made. 
     // This is useful when you want to ensure that the page has fully loaded before proceeding with further actions.
     await page.waitForLoadState('networkidle');
@@ -20,13 +21,10 @@ test('Browser Context Playwright Test', async ({ page }) => {
     await page.locator('.card-body b').last().waitFor();
     await page.locator('.card-body b').nth(1).waitFor();
 
-    const count = await products.count();
-    for (let i = 0; i < count; ++i) {
-        if (await products.nth(i).locator('b').textContent() === productName) {
-            await products.nth(i).locator("text=Add To Cart").click();
-            break;
-        }
-    }
+    // Below is the best way to use filter mechanasm to click on Add to Cart
+    await page.locator(".card-body").filter({ hasText: 'ZARA COAT 3' }).getByRole("button", { name: 'Add To Cart' }).click();
+
+
     await page.locator("[routerlink*='cart']").click();
     await page.locator("div li").first().waitFor();
     const bool = await page.locator("h3:has-text('ZARA COAT 3')").isVisible();

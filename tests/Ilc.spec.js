@@ -1,7 +1,7 @@
 //const { test, expect } = require('@playwright/test');
 import { test, expect } from '@playwright/test';
 
-test.only('Playwright Special Locator', async ({ page }) => {
+test('Playwright Special Locator', async ({ page }) => {
     await page.goto("https://rahulshettyacademy.com/angularpractice/");
     await page.getByLabel("Check me out if you Love IceCreams!").click();
 
@@ -26,6 +26,4 @@ test.only('Playwright Special Locator', async ({ page }) => {
     // Here we do not mention name of the button as there is only one button
     // This is very important locator mechanism
     await page.locator("app-card").filter({ hasText: 'Nokia Edge' }).getByRole("button").click();
-    await page.pause();
-    
 });
