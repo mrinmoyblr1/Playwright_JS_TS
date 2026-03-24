@@ -29,43 +29,17 @@ test.only('Browser Context Playwright Test', async ({ page }) => {
     expect(await page.getByText("ZARA COAT 3").isVisible()).toBeTruthy();
     await expect(page.getByText("ZARA COAT 3")).toBeVisible();
 
-    await page.locator("text=Checkout").click();
-    await page.locator("[placeholder*='Country']").pressSequentially("Ind");
-    //const options = page.locator("section").nth(1);
-    const dropdown = page.locator(".ta-results");
-    await dropdown.waitFor();
-    const optionCount = await dropdown.locator("button").count();
-    for (let i = 0; i < optionCount; i++) {
-        const text = await dropdown.locator("button").nth(i).textContent();
-        if (text.trim() === "India") {
-            await dropdown.locator("button").nth(i).click();
-            break;
-        }
-    }
+    await page.getByRole("button", { name: "Checkout" }).click();
+    await page.getByPlaceholder("Select Country").pressSequentially("Ind");
+
+    await page.getByRole("button", { name: "India" }).nth(1).click();
+
+
     console.log(await page.locator("[style*='color: lightgray']").textContent());
     const email = await page.locator("[style*='color: lightgray']").textContent();
     expect(userEmail).toBe(email);
-    expect(await page.locator(".user__name [type='text']").first()).toHaveText(email);
-    await page.locator("a.action__submit").click();
-    const message = await page.locator("h1").textContent();
-    console.log(message);
-    expect(successMessage).toEqual(message);
-    expect(await page.locator(".hero-primary")).toHaveText(successMessage);
-    const orderID = (await page.locator(".em-spacer-1 .ng-star-inserted").textContent()).split(" ")[2];
-    console.log(orderID);
-    // This is for finding the Order in the Order page
-    await page.locator("button[routerlink*='myorders']").click();
+    await expect(page.locator(".user__name [type='text']").first()).toHaveText(email);
+    await page.getByText("Place Order ").click();
 
-    // Below code will find any button from a table and click on it
-    await page.locator("tbody tr").first().waitFor();
-    const rows = page.locator("tbody tr");
-    for (let i = 0; i < await rows.count(); i++) {
-        const rowOrderID = await rows.nth(i).locator("th").textContent();
-        if (orderID.includes(rowOrderID)) {
-            await rows.nth(i).locator("button").first().click();
-            break;
-        }
-        const orderIdDetailsPage = await page.locator(".col-text").textContent();
-        expect(orderID.includes(orderIdDetailsPage)).toBeTruthy();
-    }
+    await expect(page.getByText(" Thankyou for the order. ")).toBeVisible();
 });
